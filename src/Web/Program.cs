@@ -1,3 +1,4 @@
+using Common.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Web;
@@ -13,7 +14,7 @@ builder.Configuration.AddJsonFile("appsettings.json", true, true);
 builder.Configuration.AddUserSecrets<IWebMarker>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
 {
     options.UseSqlite(connectionString);
 });
