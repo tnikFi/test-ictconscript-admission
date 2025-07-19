@@ -14,7 +14,7 @@ public class TestBase : IAsyncLifetime
     private IServiceProvider? _serviceProvider;
     private IServiceProvider ServiceProvider => _serviceProvider ?? throw new InvalidOperationException();
     protected IMediator Mediator => ServiceProvider.GetRequiredService<IMediator>();
-    protected ApplicationDbContext Context => ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    protected IApplicationDbContext Context => ServiceProvider.GetRequiredService<IApplicationDbContext>();
 
     public Task InitializeAsync()
     {
