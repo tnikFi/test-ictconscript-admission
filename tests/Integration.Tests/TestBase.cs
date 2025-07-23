@@ -34,9 +34,13 @@ public class TestBase : IAsyncLifetime
         return Task.CompletedTask;
     }
 
-    public Task DisposeAsync()
+    public async Task DisposeAsync()
     {
+        // Clean up data
+        var entries = await Context.LogbookEntries.ToListAsync();
+        Context.LogbookEntries.RemoveRange(entries);
+        await Context.SaveChangesAsync();
+        
         _serviceProvider = null!;
-        return Task.CompletedTask;
     }
 }
