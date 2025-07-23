@@ -11,6 +11,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using Web;
+using Web.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,9 @@ builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(optio
 builder.Services.AddCortexMediator(builder.Configuration,
     [typeof(IApplicationMarker)]);
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
+
 // Validators
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationMarker>();
 builder.Services.AddFluentValidationAutoValidation();
@@ -41,6 +45,8 @@ var app = builder.Build();
 using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 await context.Database.MigrateAsync();
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
