@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Integration.Tests.Queries;
 
-public class GetLogbookEntryQueryTests : TestBase
+public class GetLogbookEntriesQueryTests : TestBase
 {
     [Fact]
     public async Task ReturnsLogbookEntries()
