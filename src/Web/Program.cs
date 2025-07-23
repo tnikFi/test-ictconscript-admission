@@ -1,6 +1,7 @@
 using Application;
 using Application.Commands.AddLogbookEntry;
 using Application.Queries;
+using Application.Queries.GetLogbookEntry;
 using Common.Interfaces;
 using Cortex.Mediator;
 using Cortex.Mediator.DependencyInjection;
@@ -57,6 +58,12 @@ app.MapGet("/health", () => Results.Ok("OK"))
 app.MapGet("/entries", async (IMediator mediator) =>
         await mediator.SendAsync<GetLogbookEntriesQuery, IEnumerable<LogbookEntry>>(new GetLogbookEntriesQuery()))
     .WithName("GetLogbookEntries")
+    .WithOpenApi();
+
+app.MapGet("/entries/{id}",
+    async (int id, IMediator mediator) =>
+        await mediator.SendAsync<GetLogbookEntryQuery, LogbookEntry>(new GetLogbookEntryQuery(id)))
+    .WithName("GetLogbookEntry")
     .WithOpenApi();
 
 app.MapPost("/entries",
