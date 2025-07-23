@@ -1,11 +1,14 @@
 using Application;
+using Application.Commands.AddLogbookEntry;
 using Application.Queries;
 using Common.Interfaces;
 using Cortex.Mediator;
 using Cortex.Mediator.DependencyInjection;
 using Domain.Entities;
+using FluentValidation;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +29,10 @@ builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(optio
 
 builder.Services.AddCortexMediator(builder.Configuration,
     [typeof(IApplicationMarker)]);
+
+// Validators
+builder.Services.AddValidatorsFromAssemblyContaining<IApplicationMarker>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 
@@ -50,6 +57,13 @@ app.MapGet("/health", () => Results.Ok("OK"))
 app.MapGet("/entries", async (IMediator mediator) =>
         await mediator.SendAsync<GetLogbookEntriesQuery, IEnumerable<LogbookEntry>>(new GetLogbookEntriesQuery()))
     .WithName("GetLogbookEntries")
+    .WithOpenApi();
+
+app.MapPost("/entries",
+        async (IMediator mediator, AddLogbookEntryCommand command) =>
+            await mediator.SendAsync<AddLogbookEntryCommand, LogbookEntry>(command))
+    .WithName("AddLogbookEntry")
+    .AddFluentValidationAutoValidation()
     .WithOpenApi();
 
 app.Run();

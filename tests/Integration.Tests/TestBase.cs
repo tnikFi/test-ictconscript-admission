@@ -2,6 +2,7 @@
 using Common.Interfaces;
 using Cortex.Mediator;
 using Cortex.Mediator.DependencyInjection;
+using FluentValidation;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ public class TestBase : IAsyncLifetime
         var services = new ServiceCollection();
         var config = new ConfigurationBuilder()
             .Build();
+        services.AddValidatorsFromAssemblyContaining<IApplicationMarker>();
         services.AddCortexMediator(
             config,
             [typeof(IApplicationMarker)]
@@ -42,5 +44,21 @@ public class TestBase : IAsyncLifetime
         await Context.SaveChangesAsync();
         
         _serviceProvider = null!;
+    }
+
+    /// <summary>
+    /// Helper method to send a <see cref="IValueCommand{TResult}"/> with the Mediator
+    /// and automatically validate the input if a validator exists.
+    /// </summary>
+    /// <param name="command"></param>
+    /// <typeparam name="TValueCommand"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    protected async Task<TResult> SendAsync<TValueCommand, TResult>(TValueCommand command)
+        where TValueCommand : IValueCommand<TResult>
+    {
+        var validator = ServiceProvider.GetService<IValidator<TValueCommand>>();
+        if (validator != null)
+            await validator.ValidateAndThrowAsync(command);
+        return await Mediator.SendAsync<TValueCommand, TResult>(command);
     }
 }
