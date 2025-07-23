@@ -10,6 +10,7 @@ WORKDIR /src
 COPY . .
 RUN dotnet restore "Logbook.sln"
 RUN dotnet build "Logbook.sln" -c $BUILD_CONFIGURATION -o /app/build --no-restore
+RUN dotnet test "Logbook.sln" -c $BUILD_CONFIGURATION --verbosity detailed
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
