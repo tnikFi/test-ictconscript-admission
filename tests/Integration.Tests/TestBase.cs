@@ -27,7 +27,7 @@ public class TestBase : IAsyncLifetime
         );
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(opts =>
         {
-            opts.UseInMemoryDatabase("TestDb");
+            opts.UseInMemoryDatabase(Guid.NewGuid().ToString());
             opts.EnableSensitiveDataLogging();
         });
         _serviceProvider = services.BuildServiceProvider();
