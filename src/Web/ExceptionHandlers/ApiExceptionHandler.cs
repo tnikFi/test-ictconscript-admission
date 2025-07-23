@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Filters;
+namespace Web.ExceptionHandlers;
 
 public class ApiExceptionHandler : IExceptionHandler
 {
@@ -14,7 +14,6 @@ public class ApiExceptionHandler : IExceptionHandler
     {
         _exceptionHandlers = new ()
         {
-            { typeof(ValidationException), HandleValidationExceptionAsync },
             { typeof(NotFoundException), HandleNotFoundExceptionAsync }
         };
     }
@@ -28,24 +27,6 @@ public class ApiExceptionHandler : IExceptionHandler
             return true;
         }
         return false;
-    }
-
-    private static async Task HandleValidationExceptionAsync(HttpContext httpContext, Exception ex,
-        CancellationToken cancellationToken)
-    {
-        var exception = (ValidationException)ex;
-        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Title = "One or more validation errors occurred.",
-            Type = RfcProblemTypes.BadRequest,
-            Detail = exception.Errors.First().ErrorMessage,
-            Extensions = new Dictionary<string, object?>
-            {
-                ["errors"] = exception?.Errors
-            }
-        }, cancellationToken: cancellationToken);
     }
 
     private static async Task HandleNotFoundExceptionAsync(HttpContext httpContext, Exception ex,

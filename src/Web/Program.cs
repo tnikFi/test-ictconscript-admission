@@ -11,7 +11,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using Web;
-using Web.Filters;
+using Web.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
