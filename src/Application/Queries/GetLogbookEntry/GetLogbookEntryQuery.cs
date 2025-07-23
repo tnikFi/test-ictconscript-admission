@@ -22,7 +22,7 @@ public class GetLogbookEntryQueryHandler : IQueryHandler<GetLogbookEntryQuery, L
     public async Task<LogbookEntry> Handle(GetLogbookEntryQuery query, CancellationToken cancellationToken)
     {
         var entry = await _context.LogbookEntries.FindAsync([query.Id], cancellationToken: cancellationToken);
-        NotFoundException.ThrowIfNull(entry);
+        NotFoundException.ThrowIfNull(entry, $"Entry with id {query.Id} not found.");
         return entry;
     }
 }
