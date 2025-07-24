@@ -60,23 +60,32 @@ app.UseSwaggerUI();
 
 app.MapGet("/health", () => Results.Ok("OK"))
     .WithName("HealthCheck")
+    .WithDescription("Returns OK if the service is running.")
     .WithOpenApi();
 
 app.MapGet("/entries", async (IMediator mediator) =>
         await mediator.SendAsync<GetLogbookEntriesQuery, IEnumerable<LogbookEntry>>(new GetLogbookEntriesQuery()))
     .WithName("GetLogbookEntries")
+    .WithDescription("Returns a list of logbook entries.")
+    .Produces<IEnumerable<LogbookEntry>>()
     .WithOpenApi();
 
 app.MapGet("/entries/{id}",
     async (int id, IMediator mediator) =>
         await mediator.SendAsync<GetLogbookEntryQuery, LogbookEntry>(new GetLogbookEntryQuery(id)))
     .WithName("GetLogbookEntry")
+    .WithDescription("Returns a specific logbook entry by ID.")
+    .ProducesProblem(StatusCodes.Status404NotFound)
+    .Produces<LogbookEntry>()
     .WithOpenApi();
 
 app.MapPost("/entries",
         async (IMediator mediator, AddLogbookEntryCommand command) =>
             await mediator.SendAsync<AddLogbookEntryCommand, LogbookEntry>(command))
     .WithName("AddLogbookEntry")
+    .WithDescription("Adds a new logbook entry.")
+    .ProducesValidationProblem()
+    .Produces<LogbookEntry>()
     .AddFluentValidationAutoValidation()
     .WithOpenApi();
 
