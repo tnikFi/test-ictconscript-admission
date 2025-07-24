@@ -1,0 +1,42 @@
+﻿name: ci-cd.yml
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - .idea/
+      - challenges/
+      - sample-data/
+      - LICENSE.md
+      - README.md
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - .idea/
+      - challenges/
+      - sample-data/
+      - LICENSE.md
+      - README.md
+  workflow_dispatch: 
+    inputs: 
+      deploy:
+        description: Deploy to production
+        required: false
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Docker image
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        run: |
+          docker build -t logbook:latest -f Dockerfile .
