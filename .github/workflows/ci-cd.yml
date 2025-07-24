@@ -44,6 +44,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     needs: build
+    environment: production
     if: ${{ github.event.inputs.deploy == 'true' || github.event_name == 'push' }}
     steps:
       - name: Checkout code
