@@ -20,6 +20,6 @@ public class GetLogbookEntriesQueryHandler : IQueryHandler<GetLogbookEntriesQuer
     {
         var entries = await _context.LogbookEntries
             .ToArrayAsync(cancellationToken);
-        return entries.OrderByDescending(x => x.Timestamp);
+        return entries.OrderByDescending(x => x.IsoTime);
     }
 }

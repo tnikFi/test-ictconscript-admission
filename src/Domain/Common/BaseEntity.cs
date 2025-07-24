@@ -3,5 +3,5 @@
 public class BaseEntity
 {
     public int Id { get; set; }
-    public DateTimeOffset Timestamp { get; set; }
+    public DateTimeOffset IsoTime { get; set; }
 }

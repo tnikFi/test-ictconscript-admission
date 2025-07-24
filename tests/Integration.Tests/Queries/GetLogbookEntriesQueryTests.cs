@@ -12,12 +12,12 @@ public class GetLogbookEntriesQueryTests : TestBase
         {
             Title = "test",
             Body = "testing",
-            Timestamp = DateTimeOffset.Now
+            IsoTime = DateTimeOffset.Now
         }, new LogbookEntry
         {
             Title = "test 2",
             Body = "testing again",
-            Timestamp = DateTimeOffset.Now
+            IsoTime = DateTimeOffset.Now
         });
         await Context.SaveChangesAsync();
 
@@ -36,17 +36,17 @@ public class GetLogbookEntriesQueryTests : TestBase
         {
             Title = "test",
             Body = "testing",
-            Timestamp = DateTimeOffset.Now.AddDays(-1)
+            IsoTime = DateTimeOffset.Now.AddDays(-1)
         }, new LogbookEntry
         {
             Title = "test 2",
             Body = "testing again",
-            Timestamp = DateTimeOffset.Now
+            IsoTime = DateTimeOffset.Now
         }, new LogbookEntry
         {
             Title = "test 3",
             Body = "still testing",
-            Timestamp = DateTimeOffset.Now.AddDays(-2)
+            IsoTime = DateTimeOffset.Now.AddDays(-2)
         });
         await Context.SaveChangesAsync();
         

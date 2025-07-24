@@ -49,7 +49,7 @@ public class AddLogbookEntryCommandTests : TestBase
         Assert.Equal(command.Body, entries[0].Body);
         Assert.Equal(command.Latitude, entries[0].Latitude);
         Assert.Equal(command.Longitude, entries[0].Longitude);
-        Assert.True(entries[0].Timestamp.IsWithin(DateTimeOffset.Now, TimeSpan.FromSeconds(5)));
+        Assert.True(entries[0].IsoTime.IsWithin(DateTimeOffset.Now, TimeSpan.FromSeconds(5)));
     }
 
     [Theory]

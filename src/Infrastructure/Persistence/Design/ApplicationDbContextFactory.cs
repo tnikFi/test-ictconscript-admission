@@ -13,7 +13,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
 
         // Get the configuration base path by the Web project's location
         // Makes managing migrations with the EF Core CLI a little bit simpler
-        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "src", "Web");
+        var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "Web");
         var secretId = GetUserSecretsId(basePath, "Web");
 
         var builder = new ConfigurationBuilder()
