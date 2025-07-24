@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Persistence.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,5 +15,7 @@ public class LogbookEntryConfiguration : IEntityTypeConfiguration<LogbookEntry>
 
         builder.Property(x => x.Body)
             .IsRequired();
+
+        builder.HasData(LogbookEntriesSeed.Seed());
     }
 }
