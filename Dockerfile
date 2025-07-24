@@ -20,4 +20,5 @@ RUN dotnet publish "Logbook.sln" -c $BUILD_CONFIGURATION -o /app/publish /p:UseA
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN mkdir -p /app/data
 ENTRYPOINT ["dotnet", "Web.dll"]

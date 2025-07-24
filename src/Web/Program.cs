@@ -15,13 +15,16 @@ using Web.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Set up config files and user secrets
+builder.Configuration
+    .AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
+    .AddUserSecrets<IWebMarker>();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Configuration.AddJsonFile("appsettings.json", true, true);
-builder.Configuration.AddUserSecrets<IWebMarker>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
