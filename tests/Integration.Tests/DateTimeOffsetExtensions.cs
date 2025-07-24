@@ -15,7 +15,7 @@ public static class DateTimeOffsetExtensions
         if (dateTime == other) return true;
         if (timeSpan == TimeSpan.Zero) return dateTime == other;
         if (dateTime < other)
-            return dateTime.Subtract(other) <= timeSpan;
-        return other.Subtract(dateTime) <= timeSpan;
+            return other - dateTime <= timeSpan;
+        return dateTime - other <= timeSpan;
     }
 }

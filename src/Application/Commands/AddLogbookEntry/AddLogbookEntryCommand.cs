@@ -27,7 +27,8 @@ public class AddLogbookEntryCommandHandler : IValueCommandHandler<AddLogbookEntr
             Title = command.Title,
             Body = command.Body,
             Lat = command.Lat,
-            Lon = command.Lon
+            Lon = command.Lon,
+            IsoTime = DateTimeOffset.Now
         }, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return entry.Entity;
