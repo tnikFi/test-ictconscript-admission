@@ -50,7 +50,9 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Verify required variables exist
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN == '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        if: ${{ env.CLOUDFLARE_API_TOKEN == '' }}
         run: |
           echo "CLOUDFLARE_API_TOKEN is not set. Please set it in the repository secrets."
           exit 1
