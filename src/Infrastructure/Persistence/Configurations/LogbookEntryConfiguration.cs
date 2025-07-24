@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Domain.Configurations;
+namespace Infrastructure.Persistence.Configurations;
 
 public class LogbookEntryConfiguration : IEntityTypeConfiguration<LogbookEntry>
 {

@@ -25,15 +25,15 @@ public class AddLogbookEntryCommandValidator : AbstractValidator<AddLogbookEntry
             .WithMessage("Entry body is too long");
 
         // When an entry is given a location, both latitude and longitude must be defined.
-        When(c => c.Latitude != null || c.Longitude != null, () =>
+        When(c => c.Lat != null || c.Lon != null, () =>
         {
-            RuleFor(c => c.Latitude)
+            RuleFor(c => c.Lat)
                 .NotNull()
                 .WithMessage("Latitude is required when longitude is defined")
                 .InclusiveBetween(-90, 90)
                 .WithMessage("Latitude must be between -90 and 90");
 
-            RuleFor(c => c.Longitude)
+            RuleFor(c => c.Lon)
                 .NotNull()
                 .WithMessage("Longitude is required when latitude is defined")
                 .InclusiveBetween(-180, 180)

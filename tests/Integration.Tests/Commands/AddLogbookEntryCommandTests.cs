@@ -39,16 +39,16 @@ public class AddLogbookEntryCommandTests : TestBase
         {
             Title = title,
             Body = body,
-            Latitude = lat,
-            Longitude = lon
+            Lat = lat,
+            Lon = lon
         };
         await SendAsync<AddLogbookEntryCommand, LogbookEntry>(command);
         var entries = Context.LogbookEntries.ToList();
         Assert.Single(entries);
         Assert.Equal(command.Title, entries[0].Title);
         Assert.Equal(command.Body, entries[0].Body);
-        Assert.Equal(command.Latitude, entries[0].Latitude);
-        Assert.Equal(command.Longitude, entries[0].Longitude);
+        Assert.Equal(command.Lat, entries[0].Lat);
+        Assert.Equal(command.Lon, entries[0].Lon);
         Assert.True(entries[0].IsoTime.IsWithin(DateTimeOffset.Now, TimeSpan.FromSeconds(5)));
     }
 
@@ -81,8 +81,8 @@ public class AddLogbookEntryCommandTests : TestBase
         {
             Title = "Title",
             Body = "Body",
-            Latitude = latitude,
-            Longitude = longitude
+            Lat = latitude,
+            Lon = longitude
         };
         var act = async () => await SendAsync<AddLogbookEntryCommand, LogbookEntry>(command);
         await Assert.ThrowsAsync<ValidationException>(act);

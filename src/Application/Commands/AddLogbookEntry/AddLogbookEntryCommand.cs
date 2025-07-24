@@ -7,8 +7,8 @@ public class AddLogbookEntryCommand : IValueCommand<LogbookEntry>
 {
     public required string Title { get; set; }
     public required string Body { get; set; }
-    public double? Latitude { get; set; }
-    public double? Longitude { get; set; }
+    public double? Lat { get; set; }
+    public double? Lon { get; set; }
 }
 
 public class AddLogbookEntryCommandHandler : IValueCommandHandler<AddLogbookEntryCommand, LogbookEntry>
@@ -26,8 +26,8 @@ public class AddLogbookEntryCommandHandler : IValueCommandHandler<AddLogbookEntr
         {
             Title = command.Title,
             Body = command.Body,
-            Latitude = command.Latitude,
-            Longitude = command.Longitude
+            Lat = command.Lat,
+            Lon = command.Lon
         }, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return entry.Entity;
