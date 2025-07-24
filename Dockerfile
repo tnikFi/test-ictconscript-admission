@@ -14,6 +14,7 @@ RUN dotnet test "Logbook.sln" -c $BUILD_CONFIGURATION --verbosity normal
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+ENV ASPNETCORE_ENVIRONMENT=Production
 RUN dotnet publish "Logbook.sln" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final

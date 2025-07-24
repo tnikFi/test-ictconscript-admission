@@ -7,6 +7,8 @@
         - "8080:8080"
     networks:
       - internal
+    volumes:
+      - logbook_data:/app/data
 
   caddy:
     image: caddybuilds/caddy-cloudflare:2
@@ -32,3 +34,4 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
+  logbook_data:
