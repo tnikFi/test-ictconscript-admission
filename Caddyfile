@@ -1,0 +1,6 @@
+﻿logbook.tnik.fi {
+    reverse_proxy server:8080
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
