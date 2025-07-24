@@ -1,0 +1,33 @@
+﻿@startuml deployment
+
+skinparam linetype straight
+
+cloud Internet
+
+rectangle "Cloudflare proxied DNS" as Cloudflare
+
+rectangle "Hetzner CX22" #pink {
+    frame "Docker" #aliceblue {
+        node "Image (dotnet/aspnet)" as ASPNetCore {
+            [ASP.NET Core Web API]
+        }
+        node "Image (caddybuilds/caddy-cloudflare)" as Caddy {
+            [Caddy Web Server] as CaddyServer
+        }
+        rectangle "Volume (caddy_data)" as CaddyData
+        rectangle "Volume (caddy_config)" as CaddyConfig
+        rectangle "Volume (logbook_data)" as LogbookData {
+            database "SQLite Database"
+        }
+        
+        Caddy -- ASPNetCore : HTTP port 8080
+        Caddy -- CaddyData
+        Caddy -- CaddyConfig
+        ASPNetCore -- LogbookData : Entity Framework Core
+    }
+}
+
+Internet -- Cloudflare
+Cloudflare -- Caddy : HTTPS port 443
+
+@enduml

@@ -102,3 +102,7 @@ To use a Cloudflare API token, you can set the `CLOUDFLARE_API_TOKEN` environmen
 ```bash
 $ CLOUDFLARE_API_TOKEN=<your-cloudflare-api-key> docker compose up -d
 ```
+
+## Deployment diagram
+
+![deployment.png](docs/deployment.png)

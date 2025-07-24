@@ -8,6 +8,7 @@ on:
       - .idea/
       - challenges/
       - sample-data/
+      - docs/
       - LICENSE.md
       - README.md
   pull_request:
@@ -17,6 +18,7 @@ on:
       - .idea/
       - challenges/
       - sample-data/
+      - docs/
       - LICENSE.md
       - README.md
   workflow_dispatch: 
