@@ -43,9 +43,10 @@ jobs:
   
   deploy:
     runs-on: self-hosted
+    name: Deploy to production
     needs: build
     environment: production
-    if: ${{ github.event.inputs.deploy == 'true' || github.event_name == 'push' }}
+    if: ${{ github.event.inputs.deploy == 'true' || (github.event_name == 'push' && github.ref == 'refs/head/main') }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -58,11 +59,9 @@ jobs:
           echo "CLOUDFLARE_API_TOKEN is not set. Please set it in the repository secrets."
           exit 1
   
-      - name: Set up env variables for Caddy
-        run: |
-          echo "CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }}" >> $GITHUB_ENV
-  
       - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           docker compose down --remove-orphans || true
           docker compose up -d --remove-orphans
